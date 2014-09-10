@@ -15,4 +15,5 @@ class Listing < ActiveRecord::Base
 
   #links listings to users
   belongs_to :user
+  has_many :orders
 end

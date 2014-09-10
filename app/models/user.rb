@@ -7,4 +7,7 @@ class User < ActiveRecord::Base
 
   # User listings, if users are deleted so are their listings
   has_many :listings, dependent: :destroy
+
+  has_many :sales, class_name: "Order", foreign_key: "chef_id"
+  has_many :purchases, class_name: "Order", foreign_key: "buyer_id"
 end
