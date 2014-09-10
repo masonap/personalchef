@@ -1,5 +1,9 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: [:show, :edit, :update, :destroy]
+  # need to be signed in to create and edit listings
+  before_filter :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  # users can only edit their own listings
+  before_filter :check_user, only: [:edit, :update, :destroy]
 
   # GET /listings
   # GET /listings.json
@@ -72,4 +76,11 @@ class ListingsController < ApplicationController
     def listing_params
       params.require(:listing).permit(:name, :description, :price, :image)
     end
+
+    # redirects users to the homepage if trying to edit someone elses listing
+    def check_user
+      if current_user != @listing.user
+        redirect_to root_url, alert: "Sorry, this is not your listing"
+    end
+end
 end
