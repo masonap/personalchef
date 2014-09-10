@@ -1,14 +1,18 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: [:show, :edit, :update, :destroy]
-  # need to be signed in to create and edit listings
-  before_filter :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  # need to be signed in as a chef to create and edit listings
+  before_filter :authenticate_user!, only: [:chef, :new, :create, :edit, :update, :destroy]
   # users can only edit their own listings
   before_filter :check_user, only: [:edit, :update, :destroy]
+
+  def chef
+    @listings = Listing.where(user: current_user).order("created_at DESC")
+  end
 
   # GET /listings
   # GET /listings.json
   def index
-    @listings = Listing.all
+    @listings = Listing.all.order("created_at DESC")
   end
 
   # GET /listings/1
