@@ -1,3 +1,4 @@
+source 'https://code.stripe.com'
 source 'https://rubygems.org'
 ruby "2.1.2"
 
@@ -21,6 +22,9 @@ gem "figaro"
 
 # User accounts
 gem 'devise'
+
+# Stripe
+gem 'stripe'
 
 group :production do
   gem 'pg'
